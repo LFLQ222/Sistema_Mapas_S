@@ -217,20 +217,27 @@ else:
                 form_data['contacto_comite'] = st.text_input("Contacto del comité:", help="",
                                                              key="contacto_comite_input")
 
-            st.markdown("<h3 class='subheader'>INFORMACIÓN DE SECCIÓN</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 class='subheader'>INFORMACIÓN DE SECCIÓN ELECTORAL</h3>", unsafe_allow_html=True)
             col1, col2, col3 = st.columns(3)
             with col1:
                 form_data['no_viviendas'] = st.number_input("No. de viviendas:", min_value=0, step=1, help="",
                                                             key="no_viviendas_input")
             with col2:
-                form_data['votantes_seccion'] = st.number_input("Votantes en la sección:", min_value=0, step=1, help="",
+                form_data['votantes_seccion'] = st.number_input("Lista nominal de la sección:", min_value=0, step=1, help="",
                                                                 key="votantes_seccion_input")
             with col3:
                 form_data['votantes_necesarios'] = st.number_input("Votantes necesarios para ganar sección:",
                                                                    min_value=0, step=1, help="",
                                                                    key="votantes_necesarios_input")
+            col_mujeres, col_hombres = st.columns(2)
+            with col_mujeres:
+                form_data['mujeres_votantes'] = st.number_input("Mujeres:", min_value=0, step=1, help="",
+                                                                key="mujeres_input_seccion")
+            with col_hombres:
+                form_data['hombres_votantes'] = st.number_input("Hombres:", min_value=0, step=1, help="",
+                                                                key="hombres_input_seccion")    
 
-            st.markdown("<h4 class='subheader'>Resultados elecciones a presidencia municipal:</h4>",
+            st.markdown("<h4 class='subheader'>Resultados elecciones a presidencia municipal(Votos MC):</h4>",
                         unsafe_allow_html=True)
             col1, col2 = st.columns(2)
             with col1:
@@ -270,14 +277,12 @@ else:
                     form_data['recorrido_colonia'] = st.text_input("Colonia:", help="", key="recorrido_colonia_input")
                     form_data['recorrido_casas'] = st.number_input("Casas:", min_value=0, step=1, help="",
                                                                    key="recorrido_casas_input")
+                    
+                with col2:
                     form_data['recorrido_distancia'] = st.text_input("Distancia:", help="",
                                                                      key="recorrido_distancia_input")
-                with col2:
-                    form_data['recorrido_seccion'] = st.text_input("Sección:", help="", key="recorrido_seccion_input")
                     form_data['recorrido_manzanas'] = st.number_input("Manzanas:", min_value=0, step=1, help="",
                                                                       key="recorrido_manzanas_input")
-                    form_data['recorrido_votantes'] = st.number_input("Votantes:", min_value=0, step=1, help="",
-                                                                      key="recorrido_votantes_input")
 
                 st.subheader("Croquis del recorrido:")
                 croquis_recorrido = st.file_uploader("Cargar imagen del croquis", type=["png", "jpg", "jpeg"],
@@ -328,39 +333,45 @@ else:
                 else:
                     form_data['contacto_autoridad'] = ""
 
-            st.markdown("<h3 class='subheader'>POBLACIÓN VOTANTE ESTIMADA</h3>", unsafe_allow_html=True)
-            col_totales, col_necesarios = st.columns(2)
-            with col_totales:
-                form_data['totales_votantes'] = st.number_input("Totales:", min_value=0, step=1, help="",
-                                                                key="totales_input")
-            with col_necesarios:
-                form_data['necesarios_votantes'] = st.number_input("Necesarios:", min_value=0, step=1, help="",
-                                                                   key="necesarios_input")
+            # st.markdown("<h3 class='subheader'>POBLACIÓN VOTANTE ESTIMADA</h3>", unsafe_allow_html=True)
+            # col_totales, col_necesarios = st.columns(2)
+            # with col_totales:
+            #     form_data['totales_votantes'] = st.number_input("Totales:", min_value=0, step=1, help="",
+            #                                                     key="totales_input")
+            # with col_necesarios:
+            #     form_data['necesarios_votantes'] = st.number_input("Necesarios:", min_value=0, step=1, help="",
+            #                                                        key="necesarios_input")
 
-            col_mujeres, col_hombres = st.columns(2)
-            with col_mujeres:
-                form_data['mujeres_votantes'] = st.number_input("Mujeres:", min_value=0, step=1, help="",
-                                                                key="mujeres_input")
-            with col_hombres:
-                form_data['hombres_votantes'] = st.number_input("Hombres:", min_value=0, step=1, help="",
-                                                                key="hombres_input")
+            # col_mujeres, col_hombres = st.columns(2)
+            # with col_mujeres:
+            #     form_data['mujeres_votantes'] = st.number_input("Mujeres:", min_value=0, step=1, help="",
+            #                                                     key="mujeres_input")
+            # with col_hombres:
+            #     form_data['hombres_votantes'] = st.number_input("Hombres:", min_value=0, step=1, help="",
+            #                                                     key="hombres_input")
 
             st.markdown("<h4 class='subheader'>Distribución por Generación:</h4>", unsafe_allow_html=True)
-            col_boomers, col_genx = st.columns(2)
+            col_boomers, col_genx,col_millenials, col_genz = st.columns(4)
             with col_boomers:
                 form_data['baby_boomers'] = st.number_input("Baby boomers (61+ años):", min_value=0, step=1, help="",
                                                             key="baby_boomers_input")
             with col_genx:
                 form_data['generacion_x'] = st.number_input("Generación X (45-60 años):", min_value=0, step=1, help="",
                                                             key="generacion_x_input")
-
-            col_millenials, col_genz = st.columns(2)
             with col_millenials:
                 form_data['millenials'] = st.number_input("Millenials (29-44 años):", min_value=0, step=1, help="",
                                                           key="millenials_input")
             with col_genz:
                 form_data['generacion_z'] = st.number_input("Generación Z (18-28 años):", min_value=0, step=1, help="",
                                                             key="generacion_z_input")
+
+            # col_millenials, col_genz = st.columns(2)
+            # with col_millenials:
+            #     form_data['millenials'] = st.number_input("Millenials (29-44 años):", min_value=0, step=1, help="",
+            #                                               key="millenials_input")
+            # with col_genz:
+            #     form_data['generacion_z'] = st.number_input("Generación Z (18-28 años):", min_value=0, step=1, help="",
+            #                                                 key="generacion_z_input")
 
             st.markdown("<h3 class='subheader'>OBSERVACIONES</h3>", unsafe_allow_html=True)
             form_data['observaciones'] = st.text_area("Observaciones:", help="", key="observaciones_text_area")
@@ -488,10 +499,10 @@ else:
                 story.append(Spacer(1, 20))
                 
                 # Section Information
-                story.append(Paragraph("INFORMACIÓN DE SECCIÓN", subtitle_style))
+                story.append(Paragraph("INFORMACIÓN DE SECCIÓN ELECTORAL", subtitle_style))
                 seccion_data = [
                     ["NO. DE VIVIENDAS:", str(form_data.get('no_viviendas', ''))],
-                    ["VOTANTES EN LA SECCIÓN:", str(form_data.get('votantes_seccion', ''))],
+                    ["LISTA NOMINAL DE LA SECCIÓN:", str(form_data.get('votantes_seccion', ''))],
                     ["VOTANTES NECESARIOS:", str(form_data.get('votantes_necesarios', ''))],
                     ["RESULTADOS 2024:", str(form_data.get('resultados_2024', ''))],
                     ["RESULTADOS 2021:", str(form_data.get('resultados_2021', ''))],
@@ -581,32 +592,24 @@ else:
                     story.append(junta_table)
                     story.append(Spacer(1, 20))
                 
-                # Voter Population - Only show non-empty fields
-                story.append(Paragraph("POBLACIÓN VOTANTE ESTIMADA", subtitle_style))
-                votantes_data = []
+                # Generation Distribution - Only show non-empty fields
+                story.append(Paragraph("DISTRIBUCIÓN POR GENERACIÓN", subtitle_style))
+                generacion_data = []
                 
-                # Add only non-empty population fields
-                if form_data.get('totales_votantes'):
-                    votantes_data.append(["TOTALES:", str(form_data.get('totales_votantes', ''))])
-                if form_data.get('necesarios_votantes'):
-                    votantes_data.append(["NECESARIOS:", str(form_data.get('necesarios_votantes', ''))])
-                if form_data.get('mujeres_votantes'):
-                    votantes_data.append(["MUJERES:", str(form_data.get('mujeres_votantes', ''))])
-                if form_data.get('hombres_votantes'):
-                    votantes_data.append(["HOMBRES:", str(form_data.get('hombres_votantes', ''))])
+                # Add only non-empty generation fields
                 if form_data.get('baby_boomers'):
-                    votantes_data.append(["BABY BOOMERS (61+):", str(form_data.get('baby_boomers', ''))])
+                    generacion_data.append(["BABY BOOMERS (61+):", str(form_data.get('baby_boomers', ''))])
                 if form_data.get('generacion_x'):
-                    votantes_data.append(["GENERACIÓN X (45-60):", str(form_data.get('generacion_x', ''))])
+                    generacion_data.append(["GENERACIÓN X (45-60):", str(form_data.get('generacion_x', ''))])
                 if form_data.get('millenials'):
-                    votantes_data.append(["MILLENNIALS (29-44):", str(form_data.get('millenials', ''))])
+                    generacion_data.append(["MILLENNIALS (29-44):", str(form_data.get('millenials', ''))])
                 if form_data.get('generacion_z'):
-                    votantes_data.append(["GENERACIÓN Z (18-28):", str(form_data.get('generacion_z', ''))])
+                    generacion_data.append(["GENERACIÓN Z (18-28):", str(form_data.get('generacion_z', ''))])
                 
                 # Only create table if there's data
-                if votantes_data:
-                    votantes_table = Table(votantes_data, colWidths=[2*inch, 4*inch])
-                    votantes_table.setStyle(TableStyle([
+                if generacion_data:
+                    generacion_table = Table(generacion_data, colWidths=[2*inch, 4*inch])
+                    generacion_table.setStyle(TableStyle([
                         ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                         ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
                         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -615,7 +618,7 @@ else:
                         ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
                         ('GRID', (0, 0), (-1, -1), 1, colors.black)
                     ]))
-                    story.append(votantes_table)
+                    story.append(generacion_table)
                     story.append(Spacer(1, 20))
                 
                 # Observations
