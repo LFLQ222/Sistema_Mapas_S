@@ -283,6 +283,7 @@ else:
                 croquis_recorrido = st.file_uploader("Cargar imagen del croquis", type=["png", "jpg", "jpeg"],
                                                      key="croquis_recorrido_uploader")
                 form_data['croquis_recorrido'] = croquis_recorrido.name if croquis_recorrido else None
+                form_data['croquis_recorrido_file'] = croquis_recorrido
                 if croquis_recorrido:
                     st.image(croquis_recorrido, caption="Croquis del Recorrido", use_column_width=True)
 
@@ -622,6 +623,31 @@ else:
                     story.append(Paragraph("OBSERVACIONES", subtitle_style))
                     story.append(Paragraph(str(form_data.get('observaciones', '')), normal_style))
                     story.append(Spacer(1, 15))
+                
+                # Add croquis image if available
+                if form_data.get('croquis_recorrido_file'):
+                    story.append(Paragraph("CROQUIS DEL RECORRIDO", subtitle_style))
+                    try:
+                        croquis_file = form_data.get('croquis_recorrido_file')
+                        temp_img = io.BytesIO(croquis_file.read())
+                        temp_img.seek(0)
+                        
+                        # Add image caption
+                        story.append(Paragraph(f"Croquis: {croquis_file.name}", normal_style))
+                        story.append(Spacer(1, 10))
+                        
+                        # Add image to PDF (resize to fit page width)
+                        img = Image(temp_img, width=5*inch, height=3*inch, kind='proportional')
+                        story.append(img)
+                        story.append(Spacer(1, 15))
+                        
+                        # Reset file pointer for potential reuse
+                        croquis_file.seek(0)
+                        
+                    except Exception as e:
+                        # If image processing fails, just add the filename
+                        story.append(Paragraph(f"Croquis: {form_data.get('croquis_recorrido', 'Error al procesar')}", normal_style))
+                        story.append(Spacer(1, 10))
                 
                 # Add uploaded images if any
                 if uploaded_files:
