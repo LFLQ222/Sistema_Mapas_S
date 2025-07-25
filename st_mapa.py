@@ -54,7 +54,7 @@ st.markdown(
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        min-height: 80vh;
+        padding: 50px 0;
         text-align: center;
     }
     .login-box {
