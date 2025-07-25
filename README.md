@@ -37,7 +37,7 @@ streamlit run app.py
 
 ## 🧑‍💼 Usage
 
-1. **Login** using the access code: `igualdad2025`
+1. **Login** using the access code: xxxx
 2. **Navigate** via the sidebar to:
    - **Mapa Público** to view the embedded map
    - **Ficha Técnica** to fill and save event details
