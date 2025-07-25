@@ -348,19 +348,21 @@ else:
             #                                                     key="hombres_input")
 
             st.markdown("<h4 class='subheader'>Distribución por Generación:</h4>", unsafe_allow_html=True)
-            col_boomers, col_genx,col_millenials, col_genz = st.columns(4)
-            with col_boomers:
-                form_data['baby_boomers'] = st.number_input("Baby boomers (61+ años):", min_value=0, step=1, help="",
-                                                            key="baby_boomers_input")
-            with col_genx:
-                form_data['generacion_x'] = st.number_input("Generación X (45-60 años):", min_value=0, step=1, help="",
-                                                            key="generacion_x_input")
-            with col_millenials:
-                form_data['millenials'] = st.number_input("Millenials (29-44 años):", min_value=0, step=1, help="",
-                                                          key="millenials_input")
+            # col_boomers, col_genx,col_millenials, col_genz = st.columns(4)
+            col_genz, col_millenials, col_genx, col_boomers = st.columns(4)        
+            
             with col_genz:
                 form_data['generacion_z'] = st.number_input("Generación Z (18-28 años):", min_value=0, step=1, help="",
                                                             key="generacion_z_input")
+            with col_millenials:
+                form_data['millenials'] = st.number_input("Millenials (29-44 años):", min_value=0, step=1, help="",
+                                                          key="millenials_input")
+            with col_genx:
+                form_data['generacion_x'] = st.number_input("Generación X (45-60 años):", min_value=0, step=1, help="",
+                                                            key="generacion_x_input")
+            with col_boomers:
+                form_data['baby_boomers'] = st.number_input("Baby boomers (61+ años):", min_value=0, step=1, help="",
+                                                            key="baby_boomers_input")
 
             # col_millenials, col_genz = st.columns(2)
             # with col_millenials:
