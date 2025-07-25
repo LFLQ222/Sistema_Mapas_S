@@ -217,15 +217,12 @@ else:
                 form_data['contacto_comite'] = st.text_input("Contacto del comité:", help="",
                                                              key="contacto_comite_input")
 
-            st.markdown("<h3 class='subheader'>INFORMACIÓN DE SECCIÓN ELECTORAL</h3>", unsafe_allow_html=True)
-            col1, col2, col3 = st.columns(3)
+            st.markdown("<h3 class='subheader'>INFORMACIÓN ELECTORAL</h3>", unsafe_allow_html=True)
+            col1, col2 = st.columns(2)
             with col1:
-                form_data['no_viviendas'] = st.number_input("No. de viviendas:", min_value=0, step=1, help="",
-                                                            key="no_viviendas_input")
-            with col2:
                 form_data['votantes_seccion'] = st.number_input("Lista nominal de la sección:", min_value=0, step=1, help="",
                                                                 key="votantes_seccion_input")
-            with col3:
+            with col2:
                 form_data['votantes_necesarios'] = st.number_input("Votantes necesarios para ganar sección:",
                                                                    min_value=0, step=1, help="",
                                                                    key="votantes_necesarios_input")
@@ -499,9 +496,8 @@ else:
                 story.append(Spacer(1, 20))
                 
                 # Section Information
-                story.append(Paragraph("INFORMACIÓN DE SECCIÓN ELECTORAL", subtitle_style))
+                story.append(Paragraph("INFORMACIÓN ELECTORAL", subtitle_style))
                 seccion_data = [
-                    ["NO. DE VIVIENDAS:", str(form_data.get('no_viviendas', ''))],
                     ["LISTA NOMINAL DE LA SECCIÓN:", str(form_data.get('votantes_seccion', ''))],
                     ["VOTANTES NECESARIOS:", str(form_data.get('votantes_necesarios', ''))],
                     ["RESULTADOS 2024:", str(form_data.get('resultados_2024', ''))],
