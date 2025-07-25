@@ -223,24 +223,30 @@ else:
                 form_data['votantes_seccion'] = st.number_input("Lista nominal de la sección:", min_value=0, step=1, help="",
                                                                 key="votantes_seccion_input")
             with col2:
-                form_data['votantes_necesarios'] = st.number_input("Votantes necesarios para ganar sección:",
-                                                                   min_value=0, step=1, help="",
-                                                                   key="votantes_necesarios_input")
-            col_mujeres, col_hombres = st.columns(2)
-            with col_mujeres:
-                form_data['mujeres_votantes'] = st.number_input("Mujeres:", min_value=0, step=1, help="",
-                                                                key="mujeres_input_seccion")
-            with col_hombres:
-                form_data['hombres_votantes'] = st.number_input("Hombres:", min_value=0, step=1, help="",
-                                                                key="hombres_input_seccion")    
-
-            st.markdown("<h4 class='subheader'>Resultados elecciones a presidencia municipal(Votos MC):</h4>",
+                form_data['votantes_totales_2024'] = st.number_input("Votantes totales 2024:", min_value=0, step=1, help="",
+                                                                     key="votantes_totales_2024_input")
+            
+            col3, col4 = st.columns(2)
+            with col3:
+                form_data['votos_hombres'] = st.number_input("Votos hombres:", min_value=0, step=1, help="",
+                                                             key="votos_hombres_input")
+            with col4:
+                form_data['votos_mujeres'] = st.number_input("Votos mujeres:", min_value=0, step=1, help="",
+                                                             key="votos_mujeres_input")
+            
+            form_data['votantes_necesarios'] = st.number_input("Votos necesarios para ganar sección:",
+                                                               min_value=0, step=1, help="",
+                                                               key="votantes_necesarios_input")
+            
+            st.markdown("<h4 class='subheader'>RESULTADOS ELECCIONES A LA ALCALDÍA(VOTOS MC):</h4>",
                         unsafe_allow_html=True)
             col1, col2 = st.columns(2)
             with col1:
                 form_data['resultados_2024'] = st.text_input("2024:", help="", key="resultados_2024_input")
             with col2:
-                form_data['resultados_2021'] = st.text_input("2021:", help="", key="resultados_2021_input")
+                form_data['resultados_2021'] = st.text_input("2021:", help="", key="resultados_2021_input")    
+
+
 
             st.markdown("<h3 class='subheader'>SITUACIÓN DE RIESGO</h3>", unsafe_allow_html=True)
             form_data['situacion_riesgo'] = st.radio("Situación de riesgo:", ["Baja", "Media", "Alta"], help="",
@@ -501,9 +507,10 @@ else:
                 story.append(Paragraph("INFORMACIÓN ELECTORAL", subtitle_style))
                 seccion_data = [
                     ["LISTA NOMINAL DE LA SECCIÓN:", str(form_data.get('votantes_seccion', ''))],
-                    ["VOTANTES NECESARIOS:", str(form_data.get('votantes_necesarios', ''))],
-                    ["RESULTADOS 2024:", str(form_data.get('resultados_2024', ''))],
-                    ["RESULTADOS 2021:", str(form_data.get('resultados_2021', ''))],
+                    ["VOTANTES TOTALES 2024:", str(form_data.get('votantes_totales_2024', ''))],
+                    ["VOTOS HOMBRES:", str(form_data.get('votos_hombres', ''))],
+                    ["VOTOS MUJERES:", str(form_data.get('votos_mujeres', ''))],
+                    ["VOTOS NECESARIOS PARA GANAR SECCIÓN:", str(form_data.get('votantes_necesarios', ''))],
                 ]
                 
                 seccion_table = Table(seccion_data, colWidths=[2*inch, 4*inch])
@@ -517,6 +524,26 @@ else:
                     ('GRID', (0, 0), (-1, -1), 1, colors.black)
                 ]))
                 story.append(seccion_table)
+                story.append(Spacer(1, 20))
+                
+                # Results Section
+                story.append(Paragraph("RESULTADOS ELECCIONES A LA ALCADIA (VOTOS MC)", subtitle_style))
+                resultados_data = [
+                    ["2024:", str(form_data.get('resultados_2024', ''))],
+                    ["2021:", str(form_data.get('resultados_2021', ''))],
+                ]
+                
+                resultados_table = Table(resultados_data, colWidths=[2*inch, 4*inch])
+                resultados_table.setStyle(TableStyle([
+                    ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
+                    ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
+                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                    ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+                    ('FONTSIZE', (0, 0), (-1, -1), 10),
+                    ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
+                    ('GRID', (0, 0), (-1, -1), 1, colors.black)
+                ]))
+                story.append(resultados_table)
                 story.append(Spacer(1, 20))
                 
                 # Risk Situation
