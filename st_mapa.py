@@ -9,8 +9,7 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
 
-
-#Sistema_Mapas_S
+# Sistema_Mapas_S
 st.set_page_config(layout="wide")
 
 # Custom CSS for better layout and styling
@@ -129,9 +128,38 @@ else:
         # Using streamlit.components.v1 to embed the content
         iframe_src = "https://www.google.com/maps/d/u/0/embed?mid=1WfvdE-PSaqE1OBsgYSdsHLccw83ApNY&ehbc=2E312F"
         components.iframe(iframe_src, height=600)
+        # Add the new tables from the image here
+        st.markdown("<h3 class='subheader'>INFORMACIÓN GENERAL DE DISTRITOS</h3>", unsafe_allow_html=True)
 
+        # Local Districts Table
+        st.write("Distritos Locales")
+        local_districts_data = [
+            ['Distrito Local', 'SECCIONES', 'ELECTORES', '%'],
+            ['1', '72', '178,581', '18%'],
+            ['2', '125', '205,189', '21%'],
+            ['3', '105', '183,950', '19%'],
+            ['6', '352', '213,493', '22%'],
+            ['8', '103', '186,997', '19%'],
+            ['Total general', '757', '968,210', '100%']
+        ]
+        st.table(local_districts_data)
+
+        # Federal Districts Table
+        st.write("Distritos Federales")
+        federal_districts_data = [
+            ['Distrito Federal', 'SECCIONES', 'ELECTORES', '%'],
+            ['5', '162', '323,488', '33%'],
+            ['6', '273', '322,366', '33%'],
+            ['10', '322', '322,356', '33%'],
+            ['Total general', '757', '968,210', '100%']
+        ]
+        st.table(federal_districts_data)
+
+        st.markdown("---")  # Separator for clarity
     elif page == "Ficha Técnica":
         st.markdown("<h1 class='main-header'>FICHA TÉCNICA DE RECORRIDO Y/O JUNTA VECINAL</h1>", unsafe_allow_html=True)
+
+
 
         # Dictionary to store all form data
         form_data = {}
@@ -217,36 +245,26 @@ else:
                 form_data['contacto_comite'] = st.text_input("Contacto del comité:", help="",
                                                              key="contacto_comite_input")
 
-            st.markdown("<h3 class='subheader'>INFORMACIÓN ELECTORAL</h3>", unsafe_allow_html=True)
-            col1, col2 = st.columns(2)
+            st.markdown("<h3 class='subheader'>INFORMACIÓN DE SECCIÓN</h3>", unsafe_allow_html=True)
+            col1, col2, col3 = st.columns(3)
             with col1:
-                form_data['votantes_seccion'] = st.number_input("Lista nominal de la sección:", min_value=0, step=1, help="",
-                                                                key="votantes_seccion_input")
+                form_data['no_viviendas'] = st.number_input("No. de viviendas:", min_value=0, step=1, help="",
+                                                            key="no_viviendas_input")
             with col2:
-                form_data['votantes_totales_2024'] = st.number_input("Votantes totales 2024:", min_value=0, step=1, help="",
-                                                                     key="votantes_totales_2024_input")
-            
-            col3, col4 = st.columns(2)
+                form_data['votantes_seccion'] = st.number_input("Votantes en la sección:", min_value=0, step=1, help="",
+                                                                key="votantes_seccion_input")
             with col3:
-                form_data['votos_hombres'] = st.number_input("Votos hombres:", min_value=0, step=1, help="",
-                                                             key="votos_hombres_input")
-            with col4:
-                form_data['votos_mujeres'] = st.number_input("Votos mujeres:", min_value=0, step=1, help="",
-                                                             key="votos_mujeres_input")
-            
-            form_data['votantes_necesarios'] = st.number_input("Votos necesarios para ganar sección:",
-                                                               min_value=0, step=1, help="",
-                                                               key="votantes_necesarios_input")
-            
-            st.markdown("<h4 class='subheader'>RESULTADOS ELECCIONES A LA ALCALDÍA(VOTOS MC):</h4>",
+                form_data['votantes_necesarios'] = st.number_input("Votantes necesarios para ganar sección:",
+                                                                   min_value=0, step=1, help="",
+                                                                   key="votantes_necesarios_input")
+
+            st.markdown("<h4 class='subheader'>Resultados elecciones a presidencia municipal:</h4>",
                         unsafe_allow_html=True)
             col1, col2 = st.columns(2)
             with col1:
                 form_data['resultados_2024'] = st.text_input("2024:", help="", key="resultados_2024_input")
             with col2:
-                form_data['resultados_2021'] = st.text_input("2021:", help="", key="resultados_2021_input")    
-
-
+                form_data['resultados_2021'] = st.text_input("2021:", help="", key="resultados_2021_input")
 
             st.markdown("<h3 class='subheader'>SITUACIÓN DE RIESGO</h3>", unsafe_allow_html=True)
             form_data['situacion_riesgo'] = st.radio("Situación de riesgo:", ["Baja", "Media", "Alta"], help="",
@@ -280,12 +298,14 @@ else:
                     form_data['recorrido_colonia'] = st.text_input("Colonia:", help="", key="recorrido_colonia_input")
                     form_data['recorrido_casas'] = st.number_input("Casas:", min_value=0, step=1, help="",
                                                                    key="recorrido_casas_input")
-                    
-                with col2:
                     form_data['recorrido_distancia'] = st.text_input("Distancia:", help="",
                                                                      key="recorrido_distancia_input")
+                with col2:
+                    form_data['recorrido_seccion'] = st.text_input("Sección:", help="", key="recorrido_seccion_input")
                     form_data['recorrido_manzanas'] = st.number_input("Manzanas:", min_value=0, step=1, help="",
                                                                       key="recorrido_manzanas_input")
+                    form_data['recorrido_votantes'] = st.number_input("Votantes:", min_value=0, step=1, help="",
+                                                                      key="recorrido_votantes_input")
 
                 st.subheader("Croquis del recorrido:")
                 croquis_recorrido = st.file_uploader("Cargar imagen del croquis", type=["png", "jpg", "jpeg"],
@@ -336,47 +356,39 @@ else:
                 else:
                     form_data['contacto_autoridad'] = ""
 
-            # st.markdown("<h3 class='subheader'>POBLACIÓN VOTANTE ESTIMADA</h3>", unsafe_allow_html=True)
-            # col_totales, col_necesarios = st.columns(2)
-            # with col_totales:
-            #     form_data['totales_votantes'] = st.number_input("Totales:", min_value=0, step=1, help="",
-            #                                                     key="totales_input")
-            # with col_necesarios:
-            #     form_data['necesarios_votantes'] = st.number_input("Necesarios:", min_value=0, step=1, help="",
-            #                                                        key="necesarios_input")
+            st.markdown("<h3 class='subheader'>POBLACIÓN VOTANTE ESTIMADA</h3>", unsafe_allow_html=True)
+            col_totales, col_necesarios = st.columns(2)
+            with col_totales:
+                form_data['totales_votantes'] = st.number_input("Totales:", min_value=0, step=1, help="",
+                                                                key="totales_input")
+            with col_necesarios:
+                form_data['necesarios_votantes'] = st.number_input("Necesarios:", min_value=0, step=1, help="",
+                                                                   key="necesarios_input")
 
-            # col_mujeres, col_hombres = st.columns(2)
-            # with col_mujeres:
-            #     form_data['mujeres_votantes'] = st.number_input("Mujeres:", min_value=0, step=1, help="",
-            #                                                     key="mujeres_input")
-            # with col_hombres:
-            #     form_data['hombres_votantes'] = st.number_input("Hombres:", min_value=0, step=1, help="",
-            #                                                     key="hombres_input")
+            col_mujeres, col_hombres = st.columns(2)
+            with col_mujeres:
+                form_data['mujeres_votantes'] = st.number_input("Mujeres:", min_value=0, step=1, help="",
+                                                                key="mujeres_input")
+            with col_hombres:
+                form_data['hombres_votantes'] = st.number_input("Hombres:", min_value=0, step=1, help="",
+                                                                key="hombres_input")
 
             st.markdown("<h4 class='subheader'>Distribución por Generación:</h4>", unsafe_allow_html=True)
-            # col_boomers, col_genx,col_millenials, col_genz = st.columns(4)
-            col_genz, col_millenials, col_genx, col_boomers = st.columns(4)        
-            
-            with col_genz:
-                form_data['generacion_z'] = st.number_input("Generación Z (18-28 años):", min_value=0, step=1, help="",
-                                                            key="generacion_z_input")
-            with col_millenials:
-                form_data['millenials'] = st.number_input("Millenials (29-44 años):", min_value=0, step=1, help="",
-                                                          key="millenials_input")
-            with col_genx:
-                form_data['generacion_x'] = st.number_input("Generación X (45-60 años):", min_value=0, step=1, help="",
-                                                            key="generacion_x_input")
+            col_boomers, col_genx = st.columns(2)
             with col_boomers:
                 form_data['baby_boomers'] = st.number_input("Baby boomers (61+ años):", min_value=0, step=1, help="",
                                                             key="baby_boomers_input")
+            with col_genx:
+                form_data['generacion_x'] = st.number_input("Generación X (45-60 años):", min_value=0, step=1, help="",
+                                                            key="generacion_x_input")
 
-            # col_millenials, col_genz = st.columns(2)
-            # with col_millenials:
-            #     form_data['millenials'] = st.number_input("Millenials (29-44 años):", min_value=0, step=1, help="",
-            #                                               key="millenials_input")
-            # with col_genz:
-            #     form_data['generacion_z'] = st.number_input("Generación Z (18-28 años):", min_value=0, step=1, help="",
-            #                                                 key="generacion_z_input")
+            col_millenials, col_genz = st.columns(2)
+            with col_millenials:
+                form_data['millenials'] = st.number_input("Millenials (29-44 años):", min_value=0, step=1, help="",
+                                                          key="millenials_input")
+            with col_genz:
+                form_data['generacion_z'] = st.number_input("Generación Z (18-28 años):", min_value=0, step=1, help="",
+                                                            key="generacion_z_input")
 
             st.markdown("<h3 class='subheader'>OBSERVACIONES</h3>", unsafe_allow_html=True)
             form_data['observaciones'] = st.text_area("Observaciones:", help="", key="observaciones_text_area")
@@ -399,18 +411,19 @@ else:
         if submitted:
             st.success("Ficha Técnica guardada exitosamente!")
 
+
             # --- Generate PDF content using ReportLab ---
             def create_pdf(form_data, uploaded_files=None):
                 # Create a BytesIO buffer for the PDF
                 buffer = io.BytesIO()
-                
+
                 # Create the PDF document
                 doc = SimpleDocTemplate(buffer, pagesize=A4)
                 story = []
-                
+
                 # Get styles
                 styles = getSampleStyleSheet()
-                
+
                 # Create custom styles
                 title_style = ParagraphStyle(
                     'CustomTitle',
@@ -420,7 +433,7 @@ else:
                     alignment=TA_CENTER,
                     textColor=colors.HexColor('#FF6600')
                 )
-                
+
                 subtitle_style = ParagraphStyle(
                     'CustomSubtitle',
                     parent=styles['Heading2'],
@@ -429,16 +442,16 @@ else:
                     spaceBefore=20,
                     textColor=colors.HexColor('#FF6600')
                 )
-                
+
                 normal_style = styles['Normal']
-                
+
                 # Title
                 story.append(Paragraph("FICHA TÉCNICA DE RECORRIDO Y/O JUNTA VECINAL", title_style))
                 story.append(Spacer(1, 20))
-                
+
                 # Main Information Section
                 story.append(Paragraph("INFORMACIÓN PRINCIPAL", subtitle_style))
-                
+
                 # Create table for main information
                 main_info_data = [
                     ["FOLIO:", str(form_data.get('folio', ''))],
@@ -456,8 +469,8 @@ else:
                     ["VESTIMENTA:", str(form_data.get('vestimenta', ''))],
                     ["QUIENES ENCABEZAN:", str(form_data.get('quienes_encabezan', ''))],
                 ]
-                
-                main_table = Table(main_info_data, colWidths=[2*inch, 4*inch])
+
+                main_table = Table(main_info_data, colWidths=[2 * inch, 4 * inch])
                 main_table.setStyle(TableStyle([
                     ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
@@ -469,18 +482,18 @@ else:
                 ]))
                 story.append(main_table)
                 story.append(Spacer(1, 20))
-                
+
                 # Objective and Background
                 if form_data.get('objetivo'):
                     story.append(Paragraph("OBJETIVO", subtitle_style))
                     story.append(Paragraph(str(form_data.get('objetivo', '')), normal_style))
                     story.append(Spacer(1, 15))
-                
+
                 if form_data.get('antecedentes'):
                     story.append(Paragraph("ANTECEDENTES", subtitle_style))
                     story.append(Paragraph(str(form_data.get('antecedentes', '')), normal_style))
                     story.append(Spacer(1, 15))
-                
+
                 # Responsibles Section
                 story.append(Paragraph("RESPONSABLES", subtitle_style))
                 responsables_data = [
@@ -489,8 +502,8 @@ else:
                     ["COMITÉ DE RECEPCIÓN:", str(form_data.get('comite_recepcion', ''))],
                     ["CONTACTO DEL COMITÉ:", str(form_data.get('contacto_comite', ''))],
                 ]
-                
-                responsables_table = Table(responsables_data, colWidths=[2*inch, 4*inch])
+
+                responsables_table = Table(responsables_data, colWidths=[2 * inch, 4 * inch])
                 responsables_table.setStyle(TableStyle([
                     ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
@@ -502,18 +515,18 @@ else:
                 ]))
                 story.append(responsables_table)
                 story.append(Spacer(1, 20))
-                
+
                 # Section Information
-                story.append(Paragraph("INFORMACIÓN ELECTORAL", subtitle_style))
+                story.append(Paragraph("INFORMACIÓN DE SECCIÓN", subtitle_style))
                 seccion_data = [
-                    ["LISTA NOMINAL DE LA SECCIÓN:", str(form_data.get('votantes_seccion', ''))],
-                    ["VOTANTES TOTALES 2024:", str(form_data.get('votantes_totales_2024', ''))],
-                    ["VOTOS HOMBRES:", str(form_data.get('votos_hombres', ''))],
-                    ["VOTOS MUJERES:", str(form_data.get('votos_mujeres', ''))],
-                    ["VOTOS NECESARIOS PARA GANAR SECCIÓN:", str(form_data.get('votantes_necesarios', ''))],
+                    ["NO. DE VIVIENDAS:", str(form_data.get('no_viviendas', ''))],
+                    ["VOTANTES EN LA SECCIÓN:", str(form_data.get('votantes_seccion', ''))],
+                    ["VOTANTES NECESARIOS:", str(form_data.get('votantes_necesarios', ''))],
+                    ["RESULTADOS 2024:", str(form_data.get('resultados_2024', ''))],
+                    ["RESULTADOS 2021:", str(form_data.get('resultados_2021', ''))],
                 ]
-                
-                seccion_table = Table(seccion_data, colWidths=[2*inch, 4*inch])
+
+                seccion_table = Table(seccion_data, colWidths=[2 * inch, 4 * inch])
                 seccion_table.setStyle(TableStyle([
                     ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
@@ -525,27 +538,7 @@ else:
                 ]))
                 story.append(seccion_table)
                 story.append(Spacer(1, 20))
-                
-                # Results Section
-                story.append(Paragraph("RESULTADOS ELECCIONES A LA ALCADIA (VOTOS MC)", subtitle_style))
-                resultados_data = [
-                    ["2024:", str(form_data.get('resultados_2024', ''))],
-                    ["2021:", str(form_data.get('resultados_2021', ''))],
-                ]
-                
-                resultados_table = Table(resultados_data, colWidths=[2*inch, 4*inch])
-                resultados_table.setStyle(TableStyle([
-                    ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
-                    ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
-                    ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-                    ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
-                    ('FONTSIZE', (0, 0), (-1, -1), 10),
-                    ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
-                    ('GRID', (0, 0), (-1, -1), 1, colors.black)
-                ]))
-                story.append(resultados_table)
-                story.append(Spacer(1, 20))
-                
+
                 # Risk Situation
                 story.append(Paragraph("SITUACIÓN DE RIESGO", subtitle_style))
                 riesgo_data = [
@@ -553,8 +546,8 @@ else:
                     ["MOTIVO DE RIESGO:", str(form_data.get('motivo_riesgo', ''))],
                     ["CONTROL DE SEGURIDAD:", str(form_data.get('control_seguridad', ''))],
                 ]
-                
-                riesgo_table = Table(riesgo_data, colWidths=[2*inch, 4*inch])
+
+                riesgo_table = Table(riesgo_data, colWidths=[2 * inch, 4 * inch])
                 riesgo_table.setStyle(TableStyle([
                     ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                     ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
@@ -566,7 +559,7 @@ else:
                 ]))
                 story.append(riesgo_table)
                 story.append(Spacer(1, 20))
-                
+
                 # Event-specific details
                 if form_data.get('tipo_evento') == "Recorrido":
                     story.append(Paragraph("DETALLES DEL RECORRIDO", subtitle_style))
@@ -577,8 +570,8 @@ else:
                         ["PUNTO FINAL:", str(form_data.get('punto_final', ''))],
                         ["DESCRIPCIÓN:", str(form_data.get('descripcion_recorrido', ''))],
                     ]
-                    
-                    recorrido_table = Table(recorrido_data, colWidths=[2*inch, 4*inch])
+
+                    recorrido_table = Table(recorrido_data, colWidths=[2 * inch, 4 * inch])
                     recorrido_table.setStyle(TableStyle([
                         ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                         ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
@@ -590,7 +583,7 @@ else:
                     ]))
                     story.append(recorrido_table)
                     story.append(Spacer(1, 20))
-                
+
                 elif form_data.get('tipo_evento') == "Junta Vecinal":
                     story.append(Paragraph("DETALLES DE LA JUNTA VECINAL", subtitle_style))
                     junta_data = [
@@ -603,8 +596,8 @@ else:
                         ["TIPO DE ESPACIO:", str(form_data.get('tipo_espacio', ''))],
                         ["TIPO DE REUNIÓN:", str(form_data.get('tipo_reunion', ''))],
                     ]
-                    
-                    junta_table = Table(junta_data, colWidths=[2*inch, 4*inch])
+
+                    junta_table = Table(junta_data, colWidths=[2 * inch, 4 * inch])
                     junta_table.setStyle(TableStyle([
                         ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                         ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
@@ -616,25 +609,33 @@ else:
                     ]))
                     story.append(junta_table)
                     story.append(Spacer(1, 20))
-                
-                # Generation Distribution - Only show non-empty fields
-                story.append(Paragraph("DISTRIBUCIÓN POR GENERACIÓN", subtitle_style))
-                generacion_data = []
-                
-                # Add only non-empty generation fields
+
+                # Voter Population - Only show non-empty fields
+                story.append(Paragraph("POBLACIÓN VOTANTE ESTIMADA", subtitle_style))
+                votantes_data = []
+
+                # Add only non-empty population fields
+                if form_data.get('totales_votantes'):
+                    votantes_data.append(["TOTALES:", str(form_data.get('totales_votantes', ''))])
+                if form_data.get('necesarios_votantes'):
+                    votantes_data.append(["NECESARIOS:", str(form_data.get('necesarios_votantes', ''))])
+                if form_data.get('mujeres_votantes'):
+                    votantes_data.append(["MUJERES:", str(form_data.get('mujeres_votantes', ''))])
+                if form_data.get('hombres_votantes'):
+                    votantes_data.append(["HOMBRES:", str(form_data.get('hombres_votantes', ''))])
                 if form_data.get('baby_boomers'):
-                    generacion_data.append(["BABY BOOMERS (61+):", str(form_data.get('baby_boomers', ''))])
+                    votantes_data.append(["BABY BOOMERS (61+):", str(form_data.get('baby_boomers', ''))])
                 if form_data.get('generacion_x'):
-                    generacion_data.append(["GENERACIÓN X (45-60):", str(form_data.get('generacion_x', ''))])
+                    votantes_data.append(["GENERACIÓN X (45-60):", str(form_data.get('generacion_x', ''))])
                 if form_data.get('millenials'):
-                    generacion_data.append(["MILLENNIALS (29-44):", str(form_data.get('millenials', ''))])
+                    votantes_data.append(["MILLENNIALS (29-44):", str(form_data.get('millenials', ''))])
                 if form_data.get('generacion_z'):
-                    generacion_data.append(["GENERACIÓN Z (18-28):", str(form_data.get('generacion_z', ''))])
-                
+                    votantes_data.append(["GENERACIÓN Z (18-28):", str(form_data.get('generacion_z', ''))])
+
                 # Only create table if there's data
-                if generacion_data:
-                    generacion_table = Table(generacion_data, colWidths=[2*inch, 4*inch])
-                    generacion_table.setStyle(TableStyle([
+                if votantes_data:
+                    votantes_table = Table(votantes_data, colWidths=[2 * inch, 4 * inch])
+                    votantes_table.setStyle(TableStyle([
                         ('BACKGROUND', (0, 0), (0, -1), colors.lightgrey),
                         ('TEXTCOLOR', (0, 0), (-1, -1), colors.black),
                         ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
@@ -643,15 +644,15 @@ else:
                         ('BOTTOMPADDING', (0, 0), (-1, -1), 12),
                         ('GRID', (0, 0), (-1, -1), 1, colors.black)
                     ]))
-                    story.append(generacion_table)
+                    story.append(votantes_table)
                     story.append(Spacer(1, 20))
-                
+
                 # Observations
                 if form_data.get('observaciones'):
                     story.append(Paragraph("OBSERVACIONES", subtitle_style))
                     story.append(Paragraph(str(form_data.get('observaciones', '')), normal_style))
                     story.append(Spacer(1, 15))
-                
+
                 # Add croquis image if available
                 if form_data.get('croquis_recorrido_file'):
                     story.append(Paragraph("CROQUIS DEL RECORRIDO", subtitle_style))
@@ -659,68 +660,71 @@ else:
                         croquis_file = form_data.get('croquis_recorrido_file')
                         temp_img = io.BytesIO(croquis_file.read())
                         temp_img.seek(0)
-                        
+
                         # Add image caption
                         story.append(Paragraph(f"Croquis: {croquis_file.name}", normal_style))
                         story.append(Spacer(1, 10))
-                        
+
                         # Add image to PDF (resize to fit page width)
-                        img = Image(temp_img, width=5*inch, height=3*inch, kind='proportional')
+                        img = Image(temp_img, width=5 * inch, height=3 * inch, kind='proportional')
                         story.append(img)
                         story.append(Spacer(1, 15))
-                        
+
                         # Reset file pointer for potential reuse
                         croquis_file.seek(0)
-                        
+
                     except Exception as e:
                         # If image processing fails, just add the filename
-                        story.append(Paragraph(f"Croquis: {form_data.get('croquis_recorrido', 'Error al procesar')}", normal_style))
+                        story.append(Paragraph(f"Croquis: {form_data.get('croquis_recorrido', 'Error al procesar')}",
+                                               normal_style))
                         story.append(Spacer(1, 10))
-                
+
                 # Add uploaded images if any
                 if uploaded_files:
                     story.append(Paragraph("EVIDENCIA FOTOGRÁFICA", subtitle_style))
-                    
+
                     for i, uploaded_file in enumerate(uploaded_files):
                         try:
                             # Create a temporary file to save the uploaded image
                             temp_img = io.BytesIO(uploaded_file.read())
                             temp_img.seek(0)
-                            
+
                             # Add image caption
-                            story.append(Paragraph(f"Imagen {i+1}: {uploaded_file.name}", normal_style))
+                            story.append(Paragraph(f"Imagen {i + 1}: {uploaded_file.name}", normal_style))
                             story.append(Spacer(1, 10))
-                            
+
                             # Add image to PDF (resize to fit page width)
-                            img = Image(temp_img, width=5*inch, height=3*inch, kind='proportional')
+                            img = Image(temp_img, width=5 * inch, height=3 * inch, kind='proportional')
                             story.append(img)
                             story.append(Spacer(1, 15))
-                            
+
                             # Reset file pointer for potential reuse
                             uploaded_file.seek(0)
-                            
+
                         except Exception as e:
                             # If image processing fails, just add the filename
-                            story.append(Paragraph(f"Imagen {i+1}: {uploaded_file.name} (Error al procesar)", normal_style))
+                            story.append(
+                                Paragraph(f"Imagen {i + 1}: {uploaded_file.name} (Error al procesar)", normal_style))
                             story.append(Spacer(1, 10))
-                
+
                 # Responsible for filling
                 story.append(Paragraph("RESPONSABLE DEL LLENADO", subtitle_style))
                 story.append(Paragraph(str(form_data.get('responsable_llenado', '')), normal_style))
-                
+
                 # Build the PDF
                 doc.build(story)
-                
+
                 # Get the value of the buffer
                 pdf_bytes = buffer.getvalue()
                 buffer.close()
-                
+
                 return pdf_bytes
-            
+
+
             # Generate the PDF with uploaded files
             uploaded_files = form_data.get('evidencia_fotografica_files', [])
             pdf_bytes = create_pdf(form_data, uploaded_files)
-            
+
             # Download button for PDF
             st.download_button(
                 label="📄 Descargar Ficha Técnica (PDF)",
